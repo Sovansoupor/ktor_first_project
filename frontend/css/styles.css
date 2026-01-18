@@ -1,0 +1,248 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f8;
+}
+
+.container {
+    max-width: 1000px;
+    border-radius: 4px;
+    background-color: white;
+    margin: 40px auto;
+    padding: 20px;
+}
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.header-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+
+.filter-select {
+    width: auto !important;
+    padding: 8px 30px 8px 12px !important;
+    font-size: 0.85rem !important;
+    min-width: 140px;
+}
+
+/* Modal Styling */
+dialog {
+    border: none;
+    border-radius: 8px;
+    padding: 25px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    width: 400px;
+}
+
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    gap: 5px;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/*BUTTON STYLING*/
+.btn-icon {
+    background: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: none;
+    transition: transform 0.1s;
+}
+
+.btn-icon i {
+    width: 20px;
+    height: 20px;
+    stroke-width: 2px;
+}
+
+.btn-edit {
+    color: #666;
+}
+
+.btn-danger {
+    color: #ff4d4d;
+}
+
+.actions {
+    display: flex;
+    gap: 8px;
+}
+
+.task-right-side {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/*BADGE STYLING*/
+.badge {
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.60rem;
+    font-weight: 300;
+    color: white;
+    text-transform: uppercase;
+    min-width: 60px;
+    text-align: center;
+}
+
+.priority-low { background-color: #eae7e7; color: #212529}
+.priority-medium { background-color: #0257ae}
+.priority-high { background-color: #dc3545; }
+.priority-vital { background-color: #6f42c1; }
+
+/*TASK LIST STYLING*/
+.task-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.taskTag{
+    font-weight: bold;
+    font-size: 0.90rem;
+    color: #333
+}
+
+.task-description{
+    font-size: 0.65rem;
+    color: #666;
+}
+
+#taskList li {
+    list-style: none;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h2 {
+    text-align: center;
+}
+
+#title {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* ADD BUTTON STYLING*/
+.addTaskBtn {
+    background-color: #013268;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.addTaskBtn:hover {
+    background-color: #0056b3;
+}
+.cancelBtn{
+    background-color: #f4f6f8;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+/*FORM STYLING*/
+.form {
+    display: flex;
+    gap: 10px;
+
+}
+
+input {
+    flex: 1;
+    padding: 8px;
+}
+
+button {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    padding: 8px;
+}
+
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    padding-right: 35px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+}
+select:hover {
+    border-color: #9ca3af;
+}
+
+select option {
+    padding: 10px;
+    background-color: white;
+}
+
+input[type="text"],
+textarea,
+select {
+    width: 100%;
+    padding: 12px;
+    font-family: inherit;
+    font-size: 0.75rem;
+    color: #1f2937;
+    background-color: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+}
+
+/* Share the focus effect */
+input[type="text"]:focus,
+textarea:focus,
+select:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Specific adjustments for textarea */
+textarea {
+    min-height: 100px;
+    resize: vertical;
+    line-height: 1.5;
+}

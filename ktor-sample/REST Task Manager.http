@@ -1,0 +1,2 @@
+### Delete a specific task
+GET http://localhost:8080/tasks

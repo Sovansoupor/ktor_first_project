@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ktor Task Manager</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+<div class="container">
+    <header class="main-header">
+        <h1>All Tasks</h1>
+        <div class="header-actions">
+            <!-- Priority Filter -->
+            <label for="filterPriority"></label>
+            <select id="filterPriority" class="filter-select">
+                <option value="All">All Priorities</option>
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+                <option value="Vital">Vital</option>
+            </select>
+            <button id="openModalBtn" class="addTaskBtn">+ Add Task</button>
+        </div>
+    </header>
+
+    <!-- The Modal Dialog -->
+    <dialog id="taskModal">
+        <form id="taskForm" >
+            <h1>New Task</h1>
+            <div class="form-group">
+                <label for="taskName" class="taskTag">Task Name</label>
+                <input type="text" id="taskName" placeholder="What needs to be done?" required>
+            </div>
+            <div class="form-group">
+                <label for="taskDesc" class="taskTag">Description</label>
+                <textarea  id="taskDesc" placeholder="Provide some details..." required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="taskPriority" class="taskTag">Priority</label>
+                <select  id="taskPriority">
+                    <option value="Low">Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value="High">High</option>
+                    <option value="Vital">Vital</option>
+                </select>
+            </div>
+            <div class="modal-actions">
+                <button type="button" id="closeModalBtn" class="cancelBtn">Cancel</button>
+                <button type="submit" class="addTaskBtn">Save Task</button>
+            </div>
+        </form>
+    </dialog>
+
+    <ul id="taskList"></ul>
+</div>
+
+
+
+<script src="js/api.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
+
