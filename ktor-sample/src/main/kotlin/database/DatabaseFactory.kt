@@ -5,25 +5,23 @@ import liquibase.database.DatabaseFactory as LiquibaseDbFactory
 import liquibase.database.jvm.JdbcConnection
 import liquibase.resource.ClassLoaderResourceAccessor
 import java.sql.DriverManager
-import io.ktor.server.config.*
 import kotlinx.coroutines.Dispatchers
-import org.jetbrains.exposed.sql.*
+import liquibase.Contexts
+import liquibase.LabelExpression
 import org.jetbrains.exposed.sql.Database.Companion.connect
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
-import org.jetbrains.exposed.sql.transactions.transaction
-
 
 object DatabaseFactory {
-    fun init(config: ApplicationConfig) {
+    fun init() {
 
-            val dbUrl = config.property("ktor.database.url").getString()
-            val dbUser = config.property("ktor.database.user").getString()
-            val dbPassword = config.property("ktor.database.password").getString()
-            val dbDriver = "org.postgresql.Driver"
+        val dbUrl = System.getenv("DB_URL") ?: "jdbc:postgresql://localhost:5432/first_project_db"
+        val dbUser = System.getenv("DB_USER") ?: "postgres"
+        val dbPassword = System.getenv("DB_PASSWORD") ?: ""
+        val dbDriver = "org.postgresql.Driver"
 
             try {
                 runLiquibase(dbUrl, dbUser, dbPassword)
-            }catch (e: Exception){
+            }catch (_: Exception){
                 println("Database not initialized")
             }
 
@@ -43,8 +41,9 @@ object DatabaseFactory {
             // Point this to your master.xml
             val liquibase = Liquibase(
                 "db/master.xml",
-                ClassLoaderResourceAccessor(), database)
-            liquibase.update("")
+                ClassLoaderResourceAccessor(), database
+            )
+            liquibase.update(Contexts(), LabelExpression())
         }
     }
     suspend fun <T> dbQuery(block: suspend () -> T): T =

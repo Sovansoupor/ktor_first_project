@@ -6,7 +6,6 @@ local.properties
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-.env
 
 
 ### STS ###
@@ -22,7 +21,7 @@ bin/
 !**/src/test/**/bin/
 
 ### IntelliJ IDEA ###
-.idea
+.idea/
 *.iws
 *.iml
 *.ipr
@@ -39,3 +38,7 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Database Secret ###
+**/.env
+**/.ds_store

@@ -7,4 +7,5 @@
 
     <include file="db/changelog/20260116100300-create-tasks-table.xml"/>
     <include file="db/changelog/20260116175500-seed-data.xml"/>
+    <include file="db/changelog/202601190000-add-status-to-tasks.xml"/>
 </databaseChangeLog>

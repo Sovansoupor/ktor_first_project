@@ -1,0 +1,9 @@
+.idea/
+*.db
+build/
+.gradle/
+.kotlin/
+.env
+
+# Also ignore nested IDE folders
+**/ .idea/

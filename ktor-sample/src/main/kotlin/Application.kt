@@ -21,7 +21,7 @@ fun Application.module() {
         allowHeader(HttpHeaders.Authorization)
         allowHeader(HttpHeaders.ContentType)
     }
-    DatabaseFactory.init(environment.config)
+    DatabaseFactory.init()
     configureSerialization()
     configureRouting()
 }

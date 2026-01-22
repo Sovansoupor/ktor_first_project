@@ -14,7 +14,8 @@ object TaskRepository {
         name = row[TaskTable.name],
         description = row[TaskTable.description],
         priority = Priority.valueOf(row[TaskTable.priority]),
-        due_date = row[TaskTable.due_date]
+        due_date = row[TaskTable.due_date],
+        status = row[TaskTable.status]
     )
 
     suspend fun allTasks(): List<Task> = dbQuery {

@@ -9,7 +9,9 @@ object  TaskTable : Table("tasks") {
     val description = varchar("description", 255)
     val priority = varchar("priority", 20)
     val due_date = varchar("due_date", 20).nullable()
+    val status = varchar("status", 20).default("OPEN")
     override val primaryKey = PrimaryKey(id)
+
 
     init {
         index(false, priority)

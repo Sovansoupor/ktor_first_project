@@ -1,5 +1,6 @@
 package com.example.model
 
+import ch.qos.logback.core.status.Status
 import kotlinx.serialization.Serializable
 
 enum class Priority {
@@ -12,5 +13,6 @@ data class Task(
     val name: String,
     val description: String,
     val priority: Priority,
-    val due_date: String? = null
+    val due_date: String? = null,
+    val status: String = "OPEN"
 )
