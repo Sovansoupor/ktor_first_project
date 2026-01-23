@@ -15,8 +15,8 @@ object DatabaseFactory {
     fun init() {
 
         val dbUrl = System.getenv("DB_URL") ?: "jdbc:postgresql://localhost:5432/first_project_db"
-        val dbUser = System.getenv("DB_USER") ?: "postgres"
-        val dbPassword = System.getenv("DB_PASSWORD") ?: ""
+        val dbUser = System.getenv("DB_USER")
+        val dbPassword = System.getenv("DB_PASSWORD")
         val dbDriver = "org.postgresql.Driver"
 
             try {

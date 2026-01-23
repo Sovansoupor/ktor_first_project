@@ -1,20 +1,14 @@
-# Build the application
-FROM gradle:8.5-jdk17 AS build
-COPY --chown=gradle:gradle . /home/gradle/src
-WORKDIR /home/gradle/src
-COPY gradlew .
-COPY gradle gradle
-COPY build.gradle.kts settings.gradle.kts ./
+# ----------- Stage 1: Build ----------- #
+FROM eclipse-temurin:17-jdk AS build
 
-RUN chmod +x gradlew
+WORKDIR /src
+COPY . .
 
-# copy source and build fat jar
-COPY src src
-RUN ./gradlew buildFatJar --no-daemon
+RUN chmod +x ./gradlew && ./gradlew clean shadowJar -x test --no-daemon
 
-# Run the application
-FROM eclipse-temurin:17-jre AS runner
-WORKDIR /app
+# ----------- Stage 2: Runtime ----------- #
+FROM eclipse-temurin:17-jre
 EXPOSE 8080
-COPY --from=build /home/gradle/src/build/libs/*-all.jar /app/ktor-app.jar
-ENTRYPOINT ["java", "-jar", "/app/ktor-app.jar"]
+COPY --from=build /src/build/libs/*-all.jar /app/ktor-app.jar
+
+ENTRYPOINT ["sh","-c","exec java -Dio.ktor.deployment.host=0.0.0.0 -Dio.ktor.deployment.port=${PORT:-8081} -jar /app/ktor-app.jar"]

@@ -1,3 +1,4 @@
+# yaml
 services:
   postgres-db:
     image: postgres:15
@@ -6,30 +7,16 @@ services:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
-
     ports:
       - "5432:5432"
-      # host port : container port
     volumes:
       - postgres_data:/var/lib/postgresql/data
-
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: task_app
-    depends_on:
-      - postgres-db
-    environment:
-      DB_HOST: postgres-db
-      DB_PORT: "5432"
-      DB_USER: ${DB_USER}
-      DB_PASSWORD: ${DB_PASSWORD}
-      DB_NAME: ${DB_NAME}
-      DB_URL: jdbc:postgresql://postgres-db:5432/${DB_NAME}
-    ports:
-      - "8080:8080"
-    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
 volumes:
   postgres_data:

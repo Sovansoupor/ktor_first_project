@@ -6,8 +6,9 @@ ktor:
         port: 8080
 
     database:
-        url: ${DB_URL}
-        user: ${DB_USER}
-        password: ${DB_PASSWORD}
+        url: ${DB_URL:jdbc:postgresql://localhost:5432/first_project_db}
+        user: ${DB_USER:postgres}
+        password: ${DB_PASSWORD:postgres}
+
 
 
