@@ -14,11 +14,17 @@ import java.sql.DriverManager
 object DatabaseFactory {
 
     fun init() {
-        val dbUrl = "jdbc:postgresql://${System.getenv("DB_HOST")}:${System.getenv("DB_PORT")}/${System.getenv("DB_NAME")}?sslmode=disable" ?: error("DATABASE_URL is not set")
+        val dbHost = System.getenv("DB_HOST") ?: error("DB_HOST is not set")
+        val dbPort = System.getenv("DB_PORT") ?: "5432"
+        val dbName = System.getenv("DB_NAME") ?: error("DB_NAME is not set")
         val dbUser = System.getenv("DB_USER") ?: error("DB_USER is not set")
         val dbPassword = System.getenv("DB_PASSWORD") ?: error("DB_PASSWORD is not set")
-        val dbDriver = "org.postgresql.Driver"
 
+        val dbUrl =
+            "jdbc:postgresql://$dbHost:$dbPort/$dbName?sslmode=require"
+
+        val dbDriver = "org.postgresql.Driver"
+        Class.forName(dbDriver)
         // 1 Run Liquibase FIRST
         runLiquibase(dbUrl, dbUser, dbPassword)
 
