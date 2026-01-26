@@ -13,7 +13,7 @@ import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransacti
 
 object DatabaseFactory {
     fun init() {
-        val dbUrl = System.getenv("DB_URL") ?: "jdbc:postgresql://localhost:5432/first_project_db"
+        val dbUrl = System.getenv("DB_URL") ?: "jdbc:postgresql://localhost:5432/first_project_db?sslmode=require"
         val dbUser = System.getenv("DB_USER") ?: "sovansoupor"
         val dbPassword = System.getenv("DB_PASSWORD") ?: "password"
         val dbDriver = "org.postgresql.Driver"
