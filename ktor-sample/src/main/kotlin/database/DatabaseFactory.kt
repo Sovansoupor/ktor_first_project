@@ -1,73 +1,56 @@
 package com.example.database
 
 import liquibase.Liquibase
+import liquibase.Contexts
+import liquibase.LabelExpression
 import liquibase.database.DatabaseFactory as LiquibaseDbFactory
 import liquibase.database.jvm.JdbcConnection
 import liquibase.resource.ClassLoaderResourceAccessor
-import java.sql.DriverManager
 import kotlinx.coroutines.Dispatchers
-import liquibase.Contexts
-import liquibase.LabelExpression
-import org.jetbrains.exposed.sql.Database.Companion.connect
+import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import java.sql.DriverManager
 
 object DatabaseFactory {
+
     fun init() {
-        val dbUrl = System.getenv("DB_URL") ?: "jdbc:postgresql://localhost:5432/first_project_db?sslmode=require"
-        val dbUser = System.getenv("DB_USER") ?: "sovansoupor"
-        val dbPassword = System.getenv("DB_PASSWORD") ?: "password"
+        val dbUrl = System.getenv("DB_URL") ?: error("DB_URL is not set")
+        val dbUser = System.getenv("DB_USER") ?: error("DB_USER is not set")
+        val dbPassword = System.getenv("DB_PASSWORD") ?: error("DB_PASSWORD is not set")
         val dbDriver = "org.postgresql.Driver"
 
-        // Wait until DB is ready
-        waitForDatabase(dbUrl, dbUser, dbPassword)
-
-        // Run Liquibase migrations
+        // 1 Run Liquibase FIRST
         runLiquibase(dbUrl, dbUser, dbPassword)
 
-        // Connect Exposed
-        connect(
+        // 2 Connect Exposed AFTER migrations
+        Database.connect(
             url = dbUrl,
             driver = dbDriver,
             user = dbUser,
             password = dbPassword
         )
+
+        println("Database connected on Render")
     }
 
-    private fun waitForDatabase(url: String, user: String?, pass: String?) {
-        var retries = 10
-        while (retries > 0) {
-            try {
-                DriverManager.getConnection(url, user, pass).use { return }
-            } catch (e: Exception) {
-                println("Waiting for database... (${retries} retries left)")
-                Thread.sleep(3000)
-                retries--
-            }
-        }
-        throw Exception("Database not available after retries")
-    }
+    private fun runLiquibase(url: String, user: String, pass: String) {
+        DriverManager.getConnection(url, user, pass).use { connection ->
+            val database = LiquibaseDbFactory.getInstance()
+                .findCorrectDatabaseImplementation(JdbcConnection(connection))
 
-    private fun runLiquibase(url: String, user: String?, pass: String?) {
-        try {
-            DriverManager.getConnection(url, user, pass).use { connection ->
-                val database = LiquibaseDbFactory.getInstance()
-                    .findCorrectDatabaseImplementation(JdbcConnection(connection))
+            database.defaultSchemaName = "public"
 
-                val liquibase = Liquibase(
-                    "db/master.xml",        
-                    ClassLoaderResourceAccessor(),
-                    database
-                )
-                liquibase.update(Contexts(), LabelExpression())
-                println("Liquibase migrations applied successfully")
-            }
-        } catch (e: Exception) {
-            println("Failed to run Liquibase: ${e.message}")
-            throw e
+            val liquibase = Liquibase(
+                "db/master.xml",
+                ClassLoaderResourceAccessor(),
+                database
+            )
+
+            liquibase.update(Contexts(), LabelExpression())
+            println("Liquibase migrations applied")
         }
     }
 
     suspend fun <T> dbQuery(block: suspend () -> T): T =
         newSuspendedTransaction(Dispatchers.IO) { block() }
-        // threading: allow doing many things at once.
 }
