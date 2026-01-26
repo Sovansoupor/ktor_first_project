@@ -23,12 +23,14 @@ dependencies {
     implementation(libs.ktor.server.cio)
     implementation(libs.logback.classic)
     implementation(libs.ktor.server.config.yaml)
+
+    implementation(libs.sqlite.jdbc)
+    implementation(libs.postgresql)
     implementation(libs.exposed.core)
     implementation(libs.exposed.dao)
     implementation(libs.exposed.jdbc)
-    implementation(libs.sqlite.jdbc)
     implementation(libs.liquibase.core)
-    implementation(libs.postgresql)
+
 
     liquibaseRuntime(libs.liquibase.core)
     liquibaseRuntime(libs.sqlite.jdbc)

@@ -14,7 +14,7 @@ import java.sql.DriverManager
 object DatabaseFactory {
 
     fun init() {
-        val dbUrl = System.getenv("DATABASE_URL") ?: error("DATABASE_URL is not set")
+        val dbUrl = "jdbc:postgresql://${System.getenv("DB_HOST")}:${System.getenv("DB_PORT")}/${System.getenv("DB_NAME")}?sslmode=disable" ?: error("DATABASE_URL is not set")
         val dbUser = System.getenv("DB_USER") ?: error("DB_USER is not set")
         val dbPassword = System.getenv("DB_PASSWORD") ?: error("DB_PASSWORD is not set")
         val dbDriver = "org.postgresql.Driver"
